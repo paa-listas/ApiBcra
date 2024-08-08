@@ -14,8 +14,7 @@ using System.Threading.Tasks;
 namespace Providers.BCRA
 {
     /// <summary>
-    /// Implementacion de la API publicada por el Banco Central de la Republica Argentina (BCRA)
-    /// en los ultimos dias del mes de abril del 2024.
+    /// Implementacion de la API v2.0 publicada por el Banco Central de la Republica Argentina (BCRA)
     /// El header "Accept-Language" esta fijo en "es-AR" (no se da la opcion de pedir en el otro)
     /// Ref.: https://www.bcra.gob.ar/BCRAyVos/catalogo-de-APIs-banco-central.asp
     /// </summary>
@@ -24,7 +23,7 @@ namespace Providers.BCRA
         #region Constantes
 
         const string MI_NAME = "PROVIDER.BCRA";
-        
+
         /// <summary>
         /// API que implementa esta clase
         /// </summary>
@@ -109,7 +108,7 @@ namespace Providers.BCRA
         #endregion Constructores
 
         #region Login and Logout
-        
+
         /// <summary>
         /// Permite loguearse a la plataforma.
         /// No se usa, son consultas 'anonimas'
@@ -145,7 +144,7 @@ namespace Providers.BCRA
         /// <returns></returns>
         public async Task<PrincipalesVariablesResponse> PrincipalesVariables()
         {
-            string remoteResource = "/estadisticas/v1/PrincipalesVariables";
+            string remoteResource = "estadisticas/v2.0/principalesvariables";
             PrincipalesVariablesResponse pvr = null;
 
             RestRequest request = new RestRequest(remoteResource, Method.Get);
@@ -163,7 +162,8 @@ namespace Providers.BCRA
                 {
                     if (nResponse.StatusCode == HttpStatusCode.OK)
                     {
-                        pvr = nResponse.Data;
+                        if (nResponse.Data.IsSuccess())
+                            pvr = nResponse.Data;
                     }
                 }
             }
@@ -183,8 +183,7 @@ namespace Providers.BCRA
         {
             // Full URL: /estadisticas/v1/DatosVariable/{idVariable}/{desde}/{hasta}
             // https://api.bcra.gob.ar/estadisticas/v1/DatosVariable/1/2024-04-20/2024-04-24
-            string remoteResource = string.Format("/estadisticas/v1/DatosVariable/{0}/{1}/{2}", idVariable, desde.Date.ToString("yyyy-MM-dd"), hasta.Date.ToString("yyyy-MM-dd"));
-
+            string remoteResource = string.Format("/estadisticas/v2.0/datosvariable/{0}/{1}/{2}", idVariable, desde.Date.ToString("yyyy-MM-dd"), hasta.Date.ToString("yyyy-MM-dd"));
 
             DatosVariableResponse dvr = null;
             RestRequest request = new RestRequest(remoteResource, Method.Get);
@@ -202,6 +201,7 @@ namespace Providers.BCRA
                 {
                     if (nResponse.StatusCode == HttpStatusCode.OK)
                     {
+                        //if(nResponse.Data.)
                         dvr = nResponse.Data;
                     }
                 }

@@ -9,14 +9,22 @@ namespace Providers.BCRA.Data
     /// </summary>
     public class DatosVariableResponse
     {
-        [JsonPropertyName("results")]
-        public List<DatosVariableDto> DatosVariable { get; set; }
-
+        /// <summary>
+        /// Indica si hubo error o no. 200 => OK, 500 o 404 o 400 => Error
+        /// </summary>
         [JsonPropertyName("status")]
         public int Status { get; set; }
 
         [JsonPropertyName("errorMessages")]
         public List<string> ErrorMessages { get; set; }
+
+        [JsonPropertyName("results")]
+        public List<DatosVariableDto> DatosVariable { get; set; }
+
+        public bool IsSuccess()
+        {
+            return Status == 200;
+        }
 
         public override string ToString()
         {

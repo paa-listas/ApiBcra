@@ -21,7 +21,7 @@ namespace Providers.BCRA.Data
         public string Fecha { get; set; }
 
         [JsonPropertyName("valor")]
-        public string Valor { get; set; }
+        public double Valor { get; set; }
 
         public override string ToString()
         {
