@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-
 namespace Providers.BCRA.Data
 {
     /// <summary>
@@ -10,6 +9,9 @@ namespace Providers.BCRA.Data
     /// </summary>
     public class PrincipalesVariablesResponse
     {
+        /// <summary>
+        /// Indica si hubo error o no. 200 => OK, 500 o 404 o 400 => Error
+        /// </summary>
         [JsonPropertyName("status")]
         public int Status { get; set; }
 
@@ -18,6 +20,11 @@ namespace Providers.BCRA.Data
 
         [JsonPropertyName("results")]
         public List<PrincipalesVariablesDto> PricipalesVariables { get; set; }
+
+        public bool IsSuccess()
+        {
+            return Status == 200;
+        }
 
         public override string ToString()
         {
